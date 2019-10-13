@@ -70,3 +70,20 @@ func TestHashtag(t *testing.T) {
 	is.Equal(matches[1].End(), 37+len(matches[1].Val))
 	is.Equal(matches[1].Kind, "hashtag")
 }
+
+func TestDate(t *testing.T) {
+	is := is.New(t)
+	src := []byte("I'd like this report for yesterday or tomorrow!")
+	matches, err := anno.Dates(src)
+	is.NoErr(err)
+	is.True(matches != nil)
+	is.Equal(len(matches), 2)
+	is.Equal(matches[0].Val, []byte("yesterday"))
+	is.Equal(matches[0].Start, 25)
+	is.Equal(matches[0].End(), 25+len(matches[0].Val))
+	is.Equal(matches[0].Kind, "date")
+	is.Equal(matches[1].Val, []byte("tomorrow"))
+	is.Equal(matches[1].Start, 38)
+	is.Equal(matches[1].End(), 38+len(matches[1].Val))
+	is.Equal(matches[1].Kind, "date")
+}
